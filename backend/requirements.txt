@@ -11,5 +11,3 @@ pycparser==2.20
 PyJWT==2.1.0
 urllib3==1.26.5
 zipp==3.4.1
-numpy==1.17.1
-pandas==0.25.1

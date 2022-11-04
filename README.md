@@ -27,3 +27,10 @@ This README would normally document whatever steps are necessary to get your app
 
 * Repo owner or admin
 * Other community or team contact
+
+#go to the backend folder of the app. 
+cd backend 
+docker build --tag app .  
+docker run -d -p 5000:5000 app
+to check container : docker ps 
+to stop docker container:  docker stop "container name "
