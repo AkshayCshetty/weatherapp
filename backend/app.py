@@ -42,7 +42,7 @@ def parseCSV(filePath):
                 csvwriter.writerow(responsedata)
     csv_to_json('./static/files/response.csv', './static/files/response.json')
 
-
+# definition to convert the csv files to json format. 
 def csv_to_json(csvFilePath, jsonFilePath):
     jsonArray = []
       
@@ -66,6 +66,7 @@ def getforecast(city):
     if city is not None:
         data = {}
         data['q'] = city
+        # this is the app id from openweather, currently in my id, should change when a new user is using. 
         data['appid'] = 'b9b5716dbc568a9932c856ce9a9e98df'
         data['units'] = 'metric'
 
@@ -85,7 +86,7 @@ def forecast():
     if city is None:
         abort(400, 'Missing argument city')
     data['q'] = city
-    data['appid'] = 'b9b5716dbc568a9932c856ce9a9e98df'
+    data['appid'] = 'b9b5716dbc568a9932c856ce9a9e98df' # this is the app id from openweather, currently in my id, should change when a new user is using. 
     data['units'] = 'metric'
 
     url_values = urllib.parse.urlencode(data)
