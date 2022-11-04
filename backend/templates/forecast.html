@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
+
+            #weather {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>City</th>
+                <th>LAT</th>
+                <th>LON</th>
+                <tr>
+                    <td>{{ data["city"]["name"] }}</td>
+                    <td>{{ data["city"]["coord"]["lat"] }}</td>
+                    <td>{{ data["city"]["coord"]["lon"] }}</td>
+                </tr>
+                <tr>
+                    <th>Time</th>
+                    <th>Temperature</th>
+                    <th>Humidity</th>
+                    <th>pressure</th>
+                </tr>
+            </tr>
+
+           
+            
+            {% for item in data["list"] %}
+                <tr>
+                    <td>{{ item["dt_txt"] }}</td>
+                    <td>{{ item["main"]["temp"] }}°C</td>
+                    <td>{{ item["main"]["humidity"] }}%</td>
+                    <td>{{ item["main"]["pressure"] }}%</td>
+                
+                </tr>
+            {% endfor %}
+            
+        </table>
+    </body>
+</html>
