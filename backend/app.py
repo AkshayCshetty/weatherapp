@@ -30,10 +30,10 @@ def uploadFiles():
 
 def parseCSV(filePath):
       
-    file = open('./static/files/cities.csv')
+    file = open(filePath)
     type(file)
-    csvreader = csv.reader(file)
-    with open('./static/files/cities.csv', newline='') as infh:
+    
+    with open(filePath, newline='') as infh:
         reader = csv.reader(infh)
         for row in reader:
             responsedata = getforecast(row[0])
