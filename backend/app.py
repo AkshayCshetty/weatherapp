@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort, Response,redirect, url_for, flash
+from flask import Flask, render_template, request, abort, Response,redirect, url_for, flash, json, jsonify
 import urllib.request
 import json
 import configparser
@@ -11,6 +11,15 @@ app = Flask(__name__)
 UPLOAD_FOLDER = './static/files'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
 
+
+@app.route('/forecastjson')
+def forecastjson():
+    with open('./static/files/response.json', 'r') as myfile:
+        data = myfile.read()
+        return render_template('forecastjson.html', title="page", jsonfile=json.dumps(data))
+
+
+    
 @app.route('/')
 def home():
     return render_template('home.html')
