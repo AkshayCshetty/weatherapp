@@ -27,6 +27,9 @@ This README would normally document whatever steps are necessary to get your app
 
 * Repo owner or admin
 * Other community or team contact
+
+install DOCKER https://docs.docker.com/get-docker/
+
 if you wnat to run the docker solution.
 #go to the backend folder of the app. 
 cd backend 
