@@ -30,7 +30,7 @@
     This is a list of the files you just uploaded, click on them to load/download them
     <ul>
         {% for file in filenames %}
-        <li>{{file}}</li>
+        <li><a href="{{ url_for('download', filename=file) }}">{{file}}</a></li>
         {% endfor %}
     </ul>
     <hr/>
@@ -46,7 +46,7 @@
     This is a list of the files with weather data for that city in Json format
     <ul>
         {% for file in jsonfilenames %}
-        <li><a href="{{ url_for('download', filename=file) }}">{{file}}</a></li>
+        <li><a href="{{ url_for('downloadjosn', filename=file) }}">{{file}}</a></li>
         {% endfor %}
     </ul>
     <hr/>

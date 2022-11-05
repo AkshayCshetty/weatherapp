@@ -8,6 +8,7 @@ import csv
 
 app = Flask(__name__)
 UPLOAD_FOLDER = './static/files/uploadedfiles'
+DOWNLOAD_FOLDER = './static/files/responsejson'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
 filenames = []
 jsonfilenames = []
@@ -25,12 +26,17 @@ def forecastjson():
 def home():
     jsonfilenames=(os.listdir('static/files/responsejson'))
     session['filenames'] = filenames
-    return render_template('home.html',filenames=filenames, jsonfilenames=jsonfilenames)
+    return render_template('home.html',filenames=filenames,)
 
 @app.route('/download/<path:filename>', methods=['GET'])
-def download():
-    path = './static/files/responsejson/response.json'
-    return send_file(path, as_attachment=True)
+def download(filename):
+    full_path = os.path.join(app.root_path, UPLOAD_FOLDER)
+    return send_from_directory(full_path, filename, as_attachment=True)
+
+@app.route('/downloadjosn/<path:filename>', methods=['GET'])
+def downloadjosn(filename):
+    full_path = os.path.join(app.root_path, DOWNLOAD_FOLDER)
+    return send_from_directory(full_path, filename, as_attachment=True)
 
 @app.route("/", methods=['POST'])
 def uploadFiles():
