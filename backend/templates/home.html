@@ -37,5 +37,21 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="header">
+        <h3 class="text-muted">Weather Data for cities (JSON format)</h3>
+    </div>
+    <hr/>
+    <div>
+    This is a list of the files with weather data for that city in Json format
+    <ul>
+        {% for file in jSONfilenames %}
+        <li>{{file}}</li>
+        {% endfor %}
+    </ul>
+    <hr/>
+    </div>
+</div>
+
 </body>
 </html>
