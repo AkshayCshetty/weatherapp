@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort, Response,redirect, url_for, flash, json, jsonify
+from flask import Flask, render_template, request, abort, Response,redirect, url_for, flash, json, jsonify,send_from_directory, session
 import urllib.request
 import json
 import configparser
@@ -7,10 +7,10 @@ from os.path import join, dirname, realpath
 import csv
 
 app = Flask(__name__)
-
 UPLOAD_FOLDER = './static/files'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
-
+filenames = []
+app.secret_key = 'xyz'
 
 @app.route('/forecastjson')
 def forecastjson():
@@ -22,7 +22,7 @@ def forecastjson():
     
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html',filenames=filenames)
 
 @app.route("/", methods=['POST'])
 def uploadFiles():
@@ -34,7 +34,11 @@ def uploadFiles():
         
     if uploaded_file.filename != '':
            uploaded_file.save(os.path.join(UPLOAD_FOLDER, uploaded_file.filename))
+           filenames.append(uploaded_file.filename )
     parseCSV(os.path.join(UPLOAD_FOLDER, uploaded_file.filename))
+    session['filenames'] = filenames
+    return render_template('home.html', filenames=filenames)
+
     return redirect(url_for('home'))
 
 def parseCSV(filePath):
@@ -108,4 +112,5 @@ def forecast():
     return render_template('forecast.html', title='Weather App', data=json.loads(data.read().decode('utf8')))
 
 if __name__ == '__main__':
-	app.run(debug=True)
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.run(debug=True)
