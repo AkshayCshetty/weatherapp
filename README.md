@@ -12,25 +12,29 @@
 * App is available at http://127.0.0.1:5000
 * to shut down the app : docker compose down 
 
-Second Method to run Project 
-#go to the backend folder of the app. 
-cd backend 
-docker build --tag app .  
-docker run -d -p 5000:5000 app
-to check container : docker ps 
-to stop docker container:  docker stop "container name "
+### Second Method to run Project ###
+    #go to the backend folder of the app. 
+    cd backend 
+    docker build --tag app .  
+    docker run -d -p 5000:5000 app
+    to check container : docker ps 
+    to stop docker container:  docker stop "container name "
 
-Sometime port 5000 is used by another app or process to kill it and free port 5000 run 
-lsof -P | grep ':5000' | awk '{print $2}' | xargs kill -9
+### kill port 5000   ###
+    Sometime port 5000 is used by another app or process to kill it and free port 5000 run 
+    lsof -P | grep ':5000' | awk '{print $2}' | xargs kill -9
 
+### Continuous integration.   ###
+    Continuous integraton is being supported by bitbucket, the configuration for the same are in the file bitbucket-pipelines.yml
 
-Continuous integraton is being supported by bitbucket, the configuration for the same are in the file bitbucket-pipelines.yml
+### input file.   ###
+    upload csv file as input, this does not support other file formats.
+    please look at the sampleinput.csv file as a guideline.
 
-
-Technology stack 
+### Technology stack ###
 1. pyhton3
 2. flask ( python flask framework)
 3. docker ( to containerize the application)
 4. git source control 
-5. bitbucket account.
+5. bitbucket account, for git and also for continous integration. 
 
