@@ -7,7 +7,7 @@ from os.path import join, dirname, realpath
 import csv
 
 app = Flask(__name__)
-UPLOAD_FOLDER = './static/files'
+UPLOAD_FOLDER = './static/files/uploadedfiles'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
 filenames = []
 jsonfilenames = []
@@ -23,12 +23,12 @@ def forecastjson():
     
 @app.route('/')
 def home():
-    jsonfilenames.append(os.listdir('static/files'))
+    jsonfilenames=(os.listdir('static/files/responsejson'))
     return render_template('home.html',filenames=filenames, jsonfilenames=jsonfilenames)
 
 @app.route('/download/<path:filename>', methods=['GET'])
 def download():
-    path = './static/files/response.json'
+    path = './static/files/responsejson/response.json'
     return send_file(path, as_attachment=True)
 
 @app.route("/", methods=['POST'])
@@ -44,9 +44,7 @@ def uploadFiles():
            filenames.append(uploaded_file.filename )
     parseCSV(os.path.join(UPLOAD_FOLDER, uploaded_file.filename))
     session['filenames'] = filenames
-    return render_template('home.html', filenames=filenames,jsonfilenames=jsonfilenames)
-
-    return redirect(url_for('home'))
+    return render_template('home.html', filenames=filenames)
 
 def parseCSV(filePath):
       
@@ -57,10 +55,10 @@ def parseCSV(filePath):
         reader = csv.reader(infh)
         for row in reader:
             responsedata = getforecast(row[0])
-            with open('./static/files/response.csv', 'a', newline="") as file:
+            with open('./static/files/responsejson/response.csv', 'a', newline="") as file:
                 csvwriter = csv.writer(file)
                 csvwriter.writerow(responsedata)
-    csv_to_json('./static/files/response.csv', './static/files/response.json')
+    csv_to_json('./static/files/responsejson/response.csv', './static/files/responsejson/response.json')
 
 # definition to convert the csv files to json format. 
 def csv_to_json(csvFilePath, jsonFilePath):
