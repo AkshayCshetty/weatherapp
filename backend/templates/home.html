@@ -46,7 +46,7 @@
     This is a list of the files with weather data for that city in Json format
     <ul>
         {% for file in jsonfilenames %}
-        <li>{{file}}</li>
+        <li><a href="{{ url_for('download', filename=file) }}">{{file}}</a></li>
         {% endfor %}
     </ul>
     <hr/>
