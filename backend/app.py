@@ -23,7 +23,7 @@ def forecastjson():
     
 @app.route('/')
 def home():
-    return render_template('home.html',filenames=filenames)
+    return render_template('home.html',filenames=filenames, jsonfilenames=jsonfilenames)
 @app.route('/download/<path:filename>', methods=['GET'])
 def download():
     path = './static/files/response.json'
@@ -42,7 +42,7 @@ def uploadFiles():
            filenames.append(uploaded_file.filename )
     parseCSV(os.path.join(UPLOAD_FOLDER, uploaded_file.filename))
     session['filenames'] = filenames
-    return render_template('home.html', filenames=filenames)
+    return render_template('home.html', filenames=filenames,jsonfilenames=jsonfilenames)
 
     return redirect(url_for('home'))
 
