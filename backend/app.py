@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort, Response,redirect, url_for, flash, json, jsonify,send_from_directory, session
+from flask import Flask, render_template, send_file, request, abort, Response,redirect, url_for, flash, json, jsonify,send_from_directory, session
 import urllib.request
 import json
 import configparser
@@ -23,6 +23,11 @@ def forecastjson():
 @app.route('/')
 def home():
     return render_template('home.html',filenames=filenames)
+
+@app.route('/download')
+def download():
+    path = './static/files/response.json'
+    return send_file(path, as_attachment=True)
 
 @app.route("/", methods=['POST'])
 def uploadFiles():
