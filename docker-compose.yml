@@ -2,5 +2,6 @@ version: "3.9"
 services:
   web:
     build: ./backend
-    tty: true
     stdin_open: true
+    ports:
+        - "5000:5000"
