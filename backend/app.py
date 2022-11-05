@@ -97,12 +97,13 @@ def parseCSV(filePath):
     
     with open(filePath, newline='') as infh:
         reader = csv.reader(infh)
+        full_path = os.path.join(app.root_path, DOWNLOAD_FOLDER)
         for row in reader:
             responsedata = getforecast(row[0])
             responsestring = responsedata.read().decode('utf-8')
             json_obj = json.loads(responsestring)
-
-            with open('./static/files/responsejson/response.json', 'a', newline="") as file:
+            response_file_city=os.path.join(DOWNLOAD_FOLDER, row[0])
+            with open(response_file_city, 'w', newline="") as file:
                 file.write(json.dumps(json_obj))
  
 if __name__ == '__main__':
