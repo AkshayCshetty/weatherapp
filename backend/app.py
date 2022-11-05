@@ -14,29 +14,11 @@ filenames = []
 jsonfilenames = []
 app.secret_key = 'xyz'
 
-@app.route('/forecastjson')
-def forecastjson():
-    with open('./static/files/response.json', 'r') as myfile:
-        data = myfile.read()
-        return render_template('forecastjson.html', title="page", jsonfile=json.dumps(data))
-
-
-    
 @app.route('/')
 def home():
     jsonfilenames=(os.listdir('static/files/responsejson'))
     session['filenames'] = filenames
     return render_template('home.html',filenames=filenames,)
-
-@app.route('/download/<path:filename>', methods=['GET'])
-def download(filename):
-    full_path = os.path.join(app.root_path, UPLOAD_FOLDER)
-    return send_from_directory(full_path, filename, as_attachment=True)
-
-@app.route('/downloadjosn/<path:filename>', methods=['GET'])
-def downloadjosn(filename):
-    full_path = os.path.join(app.root_path, DOWNLOAD_FOLDER)
-    return send_from_directory(full_path, filename, as_attachment=True)
 
 @app.route("/", methods=['POST'])
 def uploadFiles():
@@ -54,38 +36,15 @@ def uploadFiles():
     jsonfilenames=(os.listdir('static/files/responsejson'))
     return render_template('home.html', filenames=filenames, jsonfilenames=jsonfilenames)
 
-def parseCSV(filePath):
-      
-    file = open(filePath)
-    type(file)
-    
-    with open(filePath, newline='') as infh:
-        reader = csv.reader(infh)
-        for row in reader:
-            responsedata = getforecast(row[0])
-            with open('./static/files/responsejson/response.csv', 'a', newline="") as file:
-                csvwriter = csv.writer(file)
-                csvwriter.writerow(responsedata)
-    csv_to_json('./static/files/responsejson/response.csv', './static/files/responsejson/response.json')
+@app.route('/download/<path:filename>', methods=['GET'])
+def download(filename):
+    full_path = os.path.join(app.root_path, UPLOAD_FOLDER)
+    return send_from_directory(full_path, filename, as_attachment=True)
 
-# definition to convert the csv files to json format. 
-def csv_to_json(csvFilePath, jsonFilePath):
-    jsonArray = []
-      
-    #read csv file
-    with open(csvFilePath, encoding='utf-8') as csvf: 
-        #load csv file data using csv library's dictionary reader
-        csvReader = csv.DictReader(csvf) 
-
-        #convert each csv row into python dict
-        for row in csvReader: 
-            #add this python dict to json array
-            jsonArray.append(row)
-  
-    #convert python jsonArray to JSON String and write to file
-    with open(jsonFilePath, 'w', encoding='utf-8') as jsonf: 
-        jsonString = json.dumps(jsonArray, indent=4)
-        jsonf.write(jsonString)
+@app.route('/downloadjosn/<path:filename>', methods=['GET'])
+def downloadjosn(filename):
+    full_path = os.path.join(app.root_path, DOWNLOAD_FOLDER)
+    return send_from_directory(full_path, filename, as_attachment=True)
 
 def getforecast(city):
     
@@ -123,6 +82,46 @@ def forecast():
     resp = Response(data)
     resp.status_code = 200
     return render_template('forecast.html', title='Weather App', data=json.loads(data.read().decode('utf8')))
+
+@app.route('/forecastjson')
+def forecastjson():
+    with open('./static/files/response.json', 'r') as myfile:
+        data = myfile.read()
+        return render_template('forecastjson.html', title="page", jsonfile=json.dumps(data))
+
+
+def parseCSV(filePath):
+      
+    file = open(filePath)
+    type(file)
+    
+    with open(filePath, newline='') as infh:
+        reader = csv.reader(infh)
+        for row in reader:
+            responsedata = getforecast(row[0])
+            with open('./static/files/responsejson/response.csv', 'a', newline="") as file:
+                csvwriter = csv.writer(file)
+                csvwriter.writerow(responsedata)
+    csv_to_json('./static/files/responsejson/response.csv', './static/files/responsejson/response.json')
+
+# definition to convert the csv files to json format. 
+def csv_to_json(csvFilePath, jsonFilePath):
+    jsonArray = []
+      
+    #read csv file
+    with open(csvFilePath, encoding='utf-8') as csvf: 
+        #load csv file data using csv library's dictionary reader
+        csvReader = csv.DictReader(csvf) 
+
+        #convert each csv row into python dict
+        for row in csvReader: 
+            #add this python dict to json array
+            jsonArray.append(row)
+  
+    #convert python jsonArray to JSON String and write to file
+    with open(jsonFilePath, 'w', encoding='utf-8') as jsonf: 
+        jsonString = json.dumps(jsonArray, indent=4)
+        jsonf.write(jsonString)
 
 if __name__ == '__main__':
     app.config['SESSION_TYPE'] = 'filesystem'
