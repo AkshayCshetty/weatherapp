@@ -22,3 +22,12 @@ to stop docker container:  docker stop "container name "
 
 Sometime port 5000 is used by another app or process to kill it and free port 5000 run 
 lsof -P | grep ':5000' | awk '{print $2}' | xargs kill -9
+
+
+
+
+Technology stack 
+1. pyhton3
+2. flask ( python flask framework)
+3. docker ( to containerize the application)
+4.
