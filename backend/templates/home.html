@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <div class="container">
+        <div class="header">
+            <h1 class="text-muted">Weather Dashboard</h1>
+        </div>
+    </div>
     <meta charset="UTF-8">
-    <title>Weather Dashboard</title>
+    <link href="bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/home.css') }}">
 </head>
 
 <body>
-<h2>Weather Dashboard</h2>
 <form id="weatherForm" action="http://127.0.0.1:5000/forecast" method="post" >
-    Enter City: <input id="weatherInput" type="text" name="city"><br>
-    
+    <h3 class="text-muted">Enter City: <input id="weatherInput" type="text" name="city"> </h3><br>
     <input id="weatherSubmit" type="submit" value="Submit">
 </form>
 <form id="uploadcities" action="" enctype="multipart/form-data" method="post" >
-    OR Upload CSV File: <input id="cityfile" type="file" name="file" accept=".CSV"><br>
+    <h3 class="text-muted">OR Upload CSV File: <input id="cityfile" type="file" name="file" accept=".CSV"></h3><br>
     <input id="citysubmit" type="submit" value="Submit">
 </form>
+<div class="container">
+    <div class="header">
+        <h3 class="text-muted">Uploaded files</h3>
+    </div>
+    <hr/>
+    <div>
+    This is a list of the files you just uploaded, click on them to load/download them
+    <ul>
+        {% for file in filenames %}
+        <li>{{file}}</li>
+        {% endfor %}
+    </ul>
+    <hr/>
+    </div>
+</div>
 
 </body>
 </html>
