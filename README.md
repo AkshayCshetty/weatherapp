@@ -27,7 +27,7 @@ This README would normally document whatever steps are necessary to get your app
 
 * Repo owner or admin
 * Other community or team contact
-
+webpage is availabe at http://127.0.0.1:5000
 install DOCKER https://docs.docker.com/get-docker/
 
 if you wnat to run the docker solution.

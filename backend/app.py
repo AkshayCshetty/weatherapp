@@ -10,7 +10,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = './static/files'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
 filenames = []
-jsonfilenames = [""]
+jsonfilenames = []
 app.secret_key = 'xyz'
 
 @app.route('/forecastjson')
@@ -23,7 +23,9 @@ def forecastjson():
     
 @app.route('/')
 def home():
+    jsonfilenames.append(os.listdir('static/files'))
     return render_template('home.html',filenames=filenames, jsonfilenames=jsonfilenames)
+
 @app.route('/download/<path:filename>', methods=['GET'])
 def download():
     path = './static/files/response.json'
