@@ -83,6 +83,9 @@ def forecast():
     resp.status_code = 200
     return render_template('forecast.html', title='Weather App', data=json.loads(data.read().decode('utf8')))
 
+
+
+# not required function as we are providing files to download. 
 @app.route('/forecastjson')
 def forecastjson():
     with open('./static/files/response.json', 'r') as myfile:
@@ -94,7 +97,7 @@ def parseCSV(filePath):
       
     file = open(filePath)
     type(file)
-    
+    formatjson = 'json'
     with open(filePath, newline='') as infh:
         reader = csv.reader(infh)
         full_path = os.path.join(app.root_path, DOWNLOAD_FOLDER)
@@ -102,7 +105,7 @@ def parseCSV(filePath):
             responsedata = getforecast(row[0])
             responsestring = responsedata.read().decode('utf-8')
             json_obj = json.loads(responsestring)
-            response_file_city=os.path.join(DOWNLOAD_FOLDER, row[0])
+            response_file_city=os.path.join(DOWNLOAD_FOLDER, row[0]+'.'+formatjson)
             with open(response_file_city, 'w', newline="") as file:
                 file.write(json.dumps(json_obj))
  
