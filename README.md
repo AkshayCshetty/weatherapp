@@ -24,10 +24,13 @@ Sometime port 5000 is used by another app or process to kill it and free port 50
 lsof -P | grep ':5000' | awk '{print $2}' | xargs kill -9
 
 
+Continuous integraton is being supported by bitbucket, the configuration for the same are in the file bitbucket-pipelines.yml
 
 
 Technology stack 
 1. pyhton3
 2. flask ( python flask framework)
 3. docker ( to containerize the application)
-4.
+4. git source control 
+5. bitbucket account.
+
