@@ -43,7 +43,7 @@
     </div>
     <hr/>
     <div>
-    This is a list of the files with weather data for that city in Json format
+    This is a list of the files with weather data for that city in Json format, click on the city to download file.
     <ul>
         {% for file in jsonfilenames %}
         <li><a href="{{ url_for('downloadjosn', filename=file) }}">{{file}}</a></li>
