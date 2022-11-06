@@ -1,10 +1,11 @@
-from flask import Flask, render_template, send_file, request, abort, Response,redirect, url_for, flash, json, jsonify,send_from_directory, session
+from flask import Flask, render_template, abort, send_file, request, abort, Response,redirect, url_for, flash, json, jsonify,send_from_directory, session
 import urllib.request
 import json
 import configparser
 import os
 from os.path import join, dirname, realpath
 import csv
+from urllib.error import HTTPError
 
 app = Flask(__name__)
 UPLOAD_FOLDER = './static/files/uploadedfiles'
@@ -76,13 +77,16 @@ def forecast():
     url_values = urllib.parse.urlencode(data)
     url = 'http://api.openweathermap.org/data/2.5/forecast'
     full_url = url + '?' + url_values
-    data = urllib.request.urlopen(full_url)
 
+    try:
+        data = urllib.request.urlopen(full_url)
+    except HTTPError as err:
+        if err.code == 404:
+            return render_template('error.html')
     resp = Response(data)
     resp.status_code = 200
     return render_template('forecast.html', title='Weather App', data=json.loads(data.read().decode('utf8')))
-
-
+    
 
 # not required function as we are providing files to download. 
 @app.route('/forecastjson')

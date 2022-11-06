@@ -10,13 +10,12 @@
       integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
       crossorigin="anonymous"
     />
-    <script>
-      var jsonfile ={{jsonfile}};
-    </script>
   </head>
   <body>
     <div class="container">
-    {{jsonfile}}
+    
+      <h1>Oops! Looks like its not a Valid city, please check and try again</h1>
+      <a href="{{ url_for('home') }}"><p>Click Here</a>To go to the Home Page</p>
   </div>
   </body>
 </html>
