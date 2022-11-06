@@ -13,6 +13,7 @@ DOWNLOAD_FOLDER = './static/files/responsejson'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
 filenames = []
 jsonfilenames = []
+formatjson = 'json'
 app.secret_key = 'xyz'
 
 @app.route('/')
@@ -84,9 +85,14 @@ def forecast():
     except HTTPError as err:
         if err.code == 404:
             return render_template('error.html')
+    responsestring = data.read().decode('utf-8')
+    json_obj = json.loads(responsestring)
+    response_file_city=os.path.join(DOWNLOAD_FOLDER, city+'.'+formatjson)
+    with open(response_file_city, 'w', newline="") as file:
+        file.write(json.dumps(json_obj))
     resp = Response(data)
     resp.status_code = 200
-    return render_template('forecast.html', title='Weather App', data=json.loads(data.read().decode('utf8')))
+    return render_template('forecast.html', title='Weather App', data=json_obj)
     
 
 # not required function as we are providing files to download. 
@@ -101,7 +107,7 @@ def parseCSV(filePath):
       
     file = open(filePath)
     type(file)
-    formatjson = 'json'
+    
     with open(filePath, newline='') as infh:
         reader = csv.reader(infh)
         full_path = os.path.join(app.root_path, DOWNLOAD_FOLDER)
