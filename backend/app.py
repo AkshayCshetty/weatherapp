@@ -16,7 +16,6 @@ app.secret_key = 'xyz'
 
 @app.route('/')
 def home():
-    jsonfilenames=(os.listdir('static/files/responsejson'))
     session['filenames'] = filenames
     return render_template('home.html',filenames=filenames,)
 
