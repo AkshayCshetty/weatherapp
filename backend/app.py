@@ -23,14 +23,14 @@ def home():
 @app.route("/", methods=['POST'])
 def uploadFiles():
       # get the uploaded file
-    jsonfilenames=(os.listdir('static/files/responsejson'))
+    
     uploaded_file = request.files['file']
-    if uploaded_file.filename == '':
-                return render_template('home.html',filenames=filenames,jsonfilenames=jsonfilenames)   
+                  
     if uploaded_file.filename != '':
            uploaded_file.save(os.path.join(UPLOAD_FOLDER, uploaded_file.filename))
            filenames.append(uploaded_file.filename )
     parseCSV(os.path.join(UPLOAD_FOLDER, uploaded_file.filename))
+    jsonfilenames=(os.listdir('static/files/responsejson'))
     session['filenames'] = filenames
     session['jsonfilenames'] = jsonfilenames
     return render_template('home.html', filenames=filenames, jsonfilenames=jsonfilenames)
