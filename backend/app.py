@@ -113,16 +113,16 @@ def parseCSV(filePath):
         full_path = os.path.join(app.root_path, DOWNLOAD_FOLDER)
         for row in reader:
             responsedata = getforecast(row[0])
-            #json_obj_m = Response(responsedata)
+            json_obj_m = Response(responsedata)
             responsestring = responsedata.read().decode('utf-8')
             json_obj = json.loads(responsestring)
-            #resultfinal = json.dumps([{k: v for k, v in d.items() if k == "list"} 
-            #    for d in json_obj_m])
+            result_final=json_obj.pop('list')
+            result_final.append(json_obj.pop('city'))
             
             response_file_city=os.path.join(DOWNLOAD_FOLDER, row[0]+'.'+formatjson)
             with open(response_file_city, 'w', newline="") as file:
-                file.write(json.dumps(json_obj, indent=4))    
- 
+                file.write(json.dumps(result_final, indent=4))    
+                
 if __name__ == '__main__':
     app.config['SESSION_TYPE'] = 'filesystem'
     app.run(debug=True)
