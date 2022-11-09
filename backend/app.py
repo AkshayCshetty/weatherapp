@@ -18,8 +18,8 @@ app.secret_key = 'xyz'
 
 @app.route('/')
 def home():
-    jsonfilenames=(os.listdir('static/files/responsejson'))
-    filenames=(os.listdir('static/files/uploadedfiles'))
+    jsonfilenames=(os.listdir(DOWNLOAD_FOLDER))
+    filenames=(os.listdir(UPLOAD_FOLDER))
     session['jsonfilenames'] = jsonfilenames
     session['filenames'] = filenames
     return render_template('home.html',filenames=filenames,jsonfilenames=jsonfilenames)
@@ -34,7 +34,8 @@ def uploadFiles():
            uploaded_file.save(os.path.join(UPLOAD_FOLDER, uploaded_file.filename))
            filenames.append(uploaded_file.filename )
     parseCSV(os.path.join(UPLOAD_FOLDER, uploaded_file.filename))
-    jsonfilenames=(os.listdir('static/files/responsejson'))
+    jsonfilenames=(os.listdir(DOWNLOAD_FOLDER))
+    
     session['filenames'] = filenames
     session['jsonfilenames'] = jsonfilenames
     return render_template('home.html', filenames=filenames, jsonfilenames=jsonfilenames)
@@ -90,7 +91,7 @@ def forecast():
     json_obj = json.loads(responsestring)
     response_file_city=os.path.join(DOWNLOAD_FOLDER, city+'.'+formatjson)
     with open(response_file_city, 'w', newline="") as file:
-        file.write(json.dumps(json_obj))
+        file.write(json.dumps(json_obj,indent=4))
     resp = Response(data)
     resp.status_code = 200
     return render_template('forecast.html', title='Weather App', data=json_obj)
